@@ -1,14 +1,14 @@
 const router = require("express-promise-router")();
 const userController = require("../controllers/user.controller");
 
-router.post("/user", userController.createUser);
+router.post("/user", userController.createUserController);
 
-router.put("/user/:id", userController.editUser);
+router.put("/user/:id", userController.editUserController);
 
-router.delete("/user/:id", userController.deleteUser);
+router.delete("/user/:id", userController.deleteUserController);
 
 module.exports = router;
 
 /**
- * posso salvar no front o id do user com md5 e mando no body do request ou param
+ * pegar o id do user a partir do session guid enviado do front nos headers das chamadas
  */
