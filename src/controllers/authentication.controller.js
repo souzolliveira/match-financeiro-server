@@ -1,15 +1,9 @@
 const db = require("../config/database");
 
 exports.signIn = async (req, res) => {
-  res.status(201).send({
-    message: "Product added successfully!",
-    body: {},
-  });
+  res.status(204).send({});
 };
 
 exports.signOut = async (req, res) => {
-  res.status(201).send({
-    message: "Product added successfully!",
-    body: {},
-  });
+  res.status(204).send({});
 };

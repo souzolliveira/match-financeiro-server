@@ -1,29 +1,35 @@
-const db = require("../config/database");
+const { code, message } = require("../entities/httpResponse.entity");
+const { createUserModel } = require("../models/user.model");
 
-exports.createUser = async (req, res) => {
-  res.status(201).send({
-    message: "Product added successfully!",
-    body: {},
-  });
+exports.getUserController = async (req, res) => {
+  res.status(204).send({});
 };
 
-exports.getUser = async (req, res) => {
-  res.status(201).send({
-    message: "Product added successfully!",
-    body: {},
-  });
+exports.createUserController = async (req, res) => {
+  const { name, email, password, phone_number } = req.body;
+  const plan = 1;
+  const goal = 2;
+  try {
+    const { code, message } = await createUserModel({
+      name,
+      email,
+      password,
+      phone_number,
+      plan,
+      goal,
+    });
+    res.status(code).send({ code, message });
+  } catch {
+    res
+      .status(httpCode.ERROR)
+      .send({ code: httpCode.ERROR, message: httpMessage.ERROR });
+  }
 };
 
-exports.editUser = async (req, res) => {
-  res.status(201).send({
-    message: "Product added successfully!",
-    body: {},
-  });
+exports.editUserController = async (req, res) => {
+  res.status(204).send({});
 };
 
-exports.deleteUser = async (req, res) => {
-  res.status(201).send({
-    message: "Product added successfully!",
-    body: {},
-  });
+exports.deleteUserController = async (req, res) => {
+  res.status(204).send({});
 };

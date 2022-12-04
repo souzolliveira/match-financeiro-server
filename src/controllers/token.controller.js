@@ -1,31 +1,19 @@
 const db = require("../config/database");
 
 exports.createToken = async (req, res) => {
-  res.status(201).send({
-    message: "Product added successfully!",
-    body: {},
-  });
+  res.status(204).send({});
 };
 
 exports.confirmToken = async (req, res) => {
-  res.status(201).send({
-    message: "Product added successfully!",
-    body: {},
-  });
+  res.status(204).send({});
 };
 
 exports.validToken = async (req, res) => {
-  res.status(201).send({
-    message: "Product added successfully!",
-    body: {},
-  });
+  res.status(204).send({});
 };
 
 exports.deleteToken = async (req, res) => {
-  res.status(201).send({
-    message: "Product added successfully!",
-    body: {},
-  });
+  res.status(204).send({});
 };
 
 /**
