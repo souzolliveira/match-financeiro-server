@@ -1,4 +1,7 @@
-const { code, message } = require("../entities/httpResponse.entity");
+const {
+  httpCode,
+  httpMessage,
+} = require("../enumerations/httpResponse.enumeration");
 const { createUserModel } = require("../models/user.model");
 
 exports.getUserController = async (req, res) => {
