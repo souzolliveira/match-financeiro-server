@@ -12,4 +12,5 @@ exports.httpCode = {
 
 exports.httpMessage = {
   ERROR: "Aconteceu algum erro inesperado, tente novamente mais tarde",
+  UNAUTHORIZED: "Sessão inválida",
 };
