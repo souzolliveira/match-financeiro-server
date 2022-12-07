@@ -1,13 +1,14 @@
 const db = require("../config/database");
+const { token_types } = require("../enumerations/token_types.enumeration");
 
-exports.selectUserByEmail = async ({ email }) => {
+exports.selectUserByEmailDAO = async ({ email }) => {
   const response = await db.query("SELECT * FROM users WHERE email = $1", [
     email,
   ]);
   return !response?.rows?.length;
 };
 
-exports.selectUserByPhoneNumber = async ({ phone_number }) => {
+exports.selectUserByPhoneNumberDAO = async ({ phone_number }) => {
   const response = await db.query(
     "SELECT * FROM users WHERE phone_number = $1",
     [phone_number]
@@ -15,7 +16,7 @@ exports.selectUserByPhoneNumber = async ({ phone_number }) => {
   return !response?.rows?.length;
 };
 
-exports.insertUser = async ({
+exports.insertUserDAO = async ({
   name,
   email,
   password,
@@ -24,8 +25,16 @@ exports.insertUser = async ({
   goal,
 }) => {
   const response = await db.query(
-    "INSERT INTO users (name, email, password, phone_number, plans_fk, goals_fk) VALUES ($1, $2, $3, $4, $5, $6);",
+    "INSERT INTO users (name, email, password, phone_number, plan, goal) VALUES ($1, $2, $3, $4, $5, $6);",
     [name, email, password, phone_number, plan, goal]
   );
   return response;
+};
+
+exports.selectUserBySessionGuidDAO = async ({ session_guid }) => {
+  const response = await db.query(
+    "SELECT * FROM tokens WHERE token_type = $1 and token = $2",
+    [token_types.AUTH, session_guid]
+  );
+  return { user_id: response?.rows[0]?.users_fk };
 };
