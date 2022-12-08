@@ -41,9 +41,10 @@ CREATE TABLE subcategories (
 
 CREATE TABLE transactions (
     id SERIAL,
-    users_fk INT, 
+    transaction_type varchar(20),
+    categories_fk INT,
     subcategories_fk INT,
-    actions varchar(10),
+    action varchar(10),
     transaction_date TIMESTAMP,
     value FLOAT,
     observation VARCHAR(100),
@@ -59,7 +60,7 @@ ALTER TABLE categories ADD CONSTRAINT categories_users_fk FOREIGN KEY (users_fk)
 
 ALTER TABLE subcategories ADD CONSTRAINT subcategories_categories_fk FOREIGN KEY (categories_fk) REFERENCES categories(id);
 
-ALTER TABLE transactions ADD CONSTRAINT transactions_users_fk FOREIGN KEY (users_fk) REFERENCES users(id);
+ALTER TABLE transactions ADD CONSTRAINT transactions_categories_fk FOREIGN KEY (categories_fk) REFERENCES categories(id);
 
 ALTER TABLE transactions ADD CONSTRAINT transactions_subcategories_fk FOREIGN KEY (subcategories_fk) REFERENCES subcategories(id);
 
