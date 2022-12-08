@@ -5,7 +5,6 @@ exports.selectCategoryByNameDAO = async ({
   name,
   user_id,
 }) => {
-  console.log("select", transaction_type, name, user_id);
   const response = await db.query(
     "SELECT * FROM categories WHERE users_fk = $1 and transaction_type = $2 and name = $3",
     [user_id, transaction_type, name]

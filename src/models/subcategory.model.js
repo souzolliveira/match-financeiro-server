@@ -31,7 +31,6 @@ exports.createSubcategoryModel = async ({
     name: category,
     user_id,
   });
-  console.log(category_fk);
   if (category_fk?.rows?.length === 0) {
     code = httpCode.BAD_REQUEST;
     message = `Não existe uma categoria com esse nome: ${category}`;
@@ -48,7 +47,6 @@ exports.createSubcategoryModel = async ({
     category: category_fk?.rows?.[0]?.id,
     name,
   });
-  console.log("verify", verifySubcategoryName);
   if (verifySubcategoryName?.rows?.length > 0) {
     code = httpCode.BAD_REQUEST;
     message = `Já existe uma subcategoria: ${name}, que faz parte da categoria: ${category}`;

@@ -20,22 +20,18 @@ exports.signInModel = async ({ email, password }) => {
     code = httpCode.UNAUTHORIZED;
     message = "Usuário e/ou senha incorretos";
   } else if (selectUserByEmailAndPassword.rows.length === 1) {
-    console.log(0, selectUserByEmailAndPassword.rows);
     const session_guid = await generateUUID();
     const createToken = await createTokenModel({
       token: session_guid,
       token_type: token_types.AUTH,
       user_id: selectUserByEmailAndPassword?.rows?.[0]?.id,
     });
-    console.log(5, session_guid, createToken);
     if (createToken) {
-      console.log(6);
       code = httpCode.OK;
       message = "Autenticação feita com sucesso";
       return { code, message, session_guid };
     }
   }
-  console.log(7);
   return { code, message, session_guid: null };
 };
 

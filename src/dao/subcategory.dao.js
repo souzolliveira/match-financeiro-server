@@ -9,7 +9,6 @@ exports.selectSubcategoryByNameDAO = async ({ category, name }) => {
 };
 
 exports.insertSubcategoryDAO = async ({ category, costing, name }) => {
-  console.log("entrou", category, costing, name);
   const response = await db.query(
     "INSERT INTO subcategories (categories_fk, costing, name) VALUES ($1, $2, $3)",
     [category, costing, name]
