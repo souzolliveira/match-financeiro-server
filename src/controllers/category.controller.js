@@ -9,7 +9,7 @@ const {
 const { getUserBySessionGuid } = require("../models/user.model");
 
 exports.listCategoryController = async (req, res) => {
-  const { transaction_type } = req.body;
+  const { transaction_type } = req.params;
   const { session_guid } = req.headers;
   const { user_id } = await getUserBySessionGuid({ session_guid });
 
