@@ -1,5 +1,5 @@
-const { selectCategory } = require("../dao/category.dao");
-const { selectSubcategoryByNameDAO } = require("../dao/subcategory.dao");
+const { selectCategoryDAO } = require("../dao/category.dao");
+const { selectSubcategoryDAO } = require("../dao/subcategory.dao");
 const { insertTransactionDAO } = require("../dao/transaction.dao");
 const {
   httpCode,
@@ -33,7 +33,7 @@ exports.createTransactionModel = async ({
     return { code, message };
   }
 
-  const verifyCategoryName = await selectCategory({
+  const verifyCategoryName = await selectCategoryDAO({
     transaction_type,
     name: category,
     user_id,
@@ -50,7 +50,7 @@ exports.createTransactionModel = async ({
     return { code, message };
   }
 
-  const verifySubcategoryName = await selectSubcategoryByNameDAO({
+  const verifySubcategoryName = await selectSubcategoryDAO({
     category: verifyCategoryName?.rows?.[0]?.id,
     name: subcategory,
   });
