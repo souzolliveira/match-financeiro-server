@@ -1,4 +1,4 @@
-const { selectCategoryByNameDAO } = require("../dao/category.dao");
+const { selectCategory } = require("../dao/category.dao");
 const {
   insertSubcategoryDAO,
   selectSubcategoryByNameDAO,
@@ -26,7 +26,7 @@ exports.createSubcategoryModel = async ({
     return { code, message };
   }
 
-  const category_fk = await selectCategoryByNameDAO({
+  const category_fk = await selectCategory({
     transaction_type,
     name: category,
     user_id,

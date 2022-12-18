@@ -1,14 +1,22 @@
 const db = require("../config/database");
 
-exports.selectCategoryByNameDAO = async ({
-  transaction_type,
-  name,
-  user_id,
-}) => {
-  const response = await db.query(
-    "SELECT * FROM categories WHERE users_fk = $1 and transaction_type = $2 and name = $3",
-    [user_id, transaction_type, name]
+exports.selectCategory = async ({ transaction_type, name, user_id }) => {
+  console.log(
+    0,
+    transaction_type,
+    user_id,
+    name,
+    `SELECT * FROM categories WHERE users_fk = $1 and transaction_type = $2 ${
+      name ? "and name = $3" : ""
+    }`
   );
+  const response = await db.query(
+    `SELECT * FROM categories WHERE users_fk = $1 and transaction_type = $2 ${
+      name ? "and name = $3" : ""
+    }`,
+    name ? [user_id, transaction_type, name] : [user_id, transaction_type]
+  );
+  console.log(1, response);
   return response;
 };
 

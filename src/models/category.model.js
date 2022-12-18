@@ -1,7 +1,4 @@
-const {
-  selectCategoryByNameDAO,
-  insertCategoryDAO,
-} = require("../dao/category.dao");
+const { selectCategory, insertCategoryDAO } = require("../dao/category.dao");
 const {
   httpCode,
   httpMessage,
@@ -9,6 +6,20 @@ const {
 const {
   transaction_types,
 } = require("../enumerations/transaction_types.enumeration");
+
+exports.listCategoryModel = async ({ transaction_type, user_id }) => {
+  let code = httpCode.ERROR;
+  let message = httpMessage.ERROR;
+
+  const listCategory = await selectCategory({ transaction_type, user_id });
+  if (listCategory) {
+    code = httpCode.OK;
+    data = listCategory.rows;
+    return { code, data };
+  }
+
+  return { code, message };
+};
 
 exports.createCategoryModel = async ({ transaction_type, name, user_id }) => {
   let code = httpCode.ERROR;
@@ -32,7 +43,7 @@ exports.createCategoryModel = async ({ transaction_type, name, user_id }) => {
     return { code, message };
   }
 
-  const verifyCategoryName = await selectCategoryByNameDAO({
+  const verifyCategoryName = await selectCategory({
     transaction_type,
     name,
     user_id,

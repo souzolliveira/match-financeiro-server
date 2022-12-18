@@ -1,6 +1,8 @@
 const router = require("express-promise-router")();
 const categoryController = require("../controllers/category.controller");
 
+router.get("/category", categoryController.listCategoryController);
+
 router.post("/category", categoryController.createCategoryController);
 
 router.put("/category", categoryController.editCategoryController);
