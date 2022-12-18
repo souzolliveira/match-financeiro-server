@@ -1,4 +1,4 @@
-const { selectCategory, insertCategoryDAO } = require("../dao/category.dao");
+const { selectCategoryDAO, insertCategoryDAO } = require("../dao/category.dao");
 const {
   httpCode,
   httpMessage,
@@ -11,12 +11,17 @@ exports.listCategoryModel = async ({ transaction_type, user_id }) => {
   let code = httpCode.ERROR;
   let message = httpMessage.ERROR;
 
-  const listCategory = await selectCategory({ transaction_type, user_id });
+  if (!transaction_types[transaction_type]) {
+    code = httpCode.BAD_REQUEST;
+    message = `Valor inválido para Tipo de Transação: ${transaction_type}`;
+    return { code, message };
+  }
+
+  const listCategory = await selectCategoryDAO({ transaction_type, user_id });
   if (listCategory) {
     code = httpCode.OK;
     data = listCategory.rows?.map((row) => {
       return {
-        category_id: row.id,
         transaction_type: row.transaction_type,
         category_name: row.name,
       };
@@ -49,7 +54,7 @@ exports.createCategoryModel = async ({ transaction_type, name, user_id }) => {
     return { code, message };
   }
 
-  const verifyCategoryName = await selectCategory({
+  const verifyCategoryName = await selectCategoryDAO({
     transaction_type,
     name,
     user_id,
