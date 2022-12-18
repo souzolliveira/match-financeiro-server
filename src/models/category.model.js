@@ -14,7 +14,13 @@ exports.listCategoryModel = async ({ transaction_type, user_id }) => {
   const listCategory = await selectCategory({ transaction_type, user_id });
   if (listCategory) {
     code = httpCode.OK;
-    data = listCategory.rows;
+    data = listCategory.rows?.map((row) => {
+      return {
+        category_id: row.id,
+        transaction_type: row.transaction_type,
+        category_name: row.name,
+      };
+    });
     return { code, data };
   }
 
