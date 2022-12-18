@@ -1,13 +1,60 @@
-const { selectCategory } = require("../dao/category.dao");
+const { selectCategoryDAO } = require("../dao/category.dao");
 const {
   insertSubcategoryDAO,
-  selectSubcategoryByNameDAO,
+  selectSubcategoryDAO,
 } = require("../dao/subcategory.dao");
 const {
   httpCode,
   httpMessage,
 } = require("../enumerations/httpResponse.enumeration");
 const { costing: costingEnum } = require("../enumerations/costing.enumeration");
+const {
+  transaction_types,
+} = require("../enumerations/transaction_types.enumeration");
+
+exports.listSubcategoryModel = async ({
+  transaction_type,
+  category_name,
+  user_id,
+}) => {
+  let code = httpCode.ERROR;
+  let message = httpMessage.ERROR;
+
+  if (!transaction_types[transaction_type]) {
+    code = httpCode.BAD_REQUEST;
+    message = `Valor inválido para Tipo de Transação: ${transaction_type}`;
+    return { code, message };
+  }
+
+  const category_fk = await selectCategoryDAO({
+    transaction_type,
+    name: category_name,
+    user_id,
+  });
+  if (category_fk?.rows?.length === 0) {
+    code = httpCode.BAD_REQUEST;
+    message = `Não existe uma categoria com esse nome: ${category}`;
+    return { code, message };
+  }
+
+  const listSubcategory = await selectSubcategoryDAO({
+    category: category_fk?.rows?.[0]?.id,
+  });
+  if (listSubcategory) {
+    code = httpCode.OK;
+    data = listSubcategory.rows?.map((row) => {
+      return {
+        transaction_type: row.transaction_type,
+        category_name,
+        costing: row.costing,
+        subcategory_name: row.name,
+      };
+    });
+    return { code, data };
+  }
+
+  return { code, message };
+};
 
 exports.createSubcategoryModel = async ({
   transaction_type,
@@ -26,7 +73,7 @@ exports.createSubcategoryModel = async ({
     return { code, message };
   }
 
-  const category_fk = await selectCategory({
+  const category_fk = await selectCategoryDAO({
     transaction_type,
     name: category,
     user_id,
@@ -43,7 +90,7 @@ exports.createSubcategoryModel = async ({
     return { code, message };
   }
 
-  const verifySubcategoryName = await selectSubcategoryByNameDAO({
+  const verifySubcategoryName = await selectSubcategoryDAO({
     category: category_fk?.rows?.[0]?.id,
     name,
   });

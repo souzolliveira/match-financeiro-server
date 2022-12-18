@@ -1,9 +1,11 @@
 const db = require("../config/database");
 
-exports.selectSubcategoryByNameDAO = async ({ category, name }) => {
+exports.selectSubcategoryDAO = async ({ category, name }) => {
   const response = await db.query(
-    "SELECT * FROM subcategories WHERE categories_fk = $1 and name = $2",
-    [category, name]
+    `SELECT * FROM subcategories WHERE categories_fk = $1 ${
+      name ? "and name = $2" : ""
+    }`,
+    name ? [category, name] : [category]
   );
   return response;
 };
