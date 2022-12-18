@@ -20,11 +20,11 @@ exports.listCategoryController = async (req, res) => {
   }
 
   try {
-    const { code, message, data } = await listCategoryModel({
+    const { code, data } = await listCategoryModel({
       transaction_type,
       user_id,
     });
-    res.status(code).send({ code, message, data });
+    res.status(code).send({ code, data });
   } catch {
     res
       .status(httpCode.ERROR)
