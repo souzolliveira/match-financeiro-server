@@ -12,8 +12,8 @@ exports.selectCategoryDAO = async ({ transaction_type, name, user_id }) => {
 
 exports.insertCategoryDAO = async ({ transaction_type, name, user_id }) => {
   const response = await db.query(
-    "INSERT INTO categories (name, transaction_type, users_fk) VALUES ($1, $2, $3)",
-    [name, transaction_type, user_id]
+    "INSERT INTO categories (users_fk, name, transaction_type) VALUES ($1, $2, $3)",
+    [user_id, name, transaction_type]
   );
   return response;
 };
