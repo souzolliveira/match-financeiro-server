@@ -1,11 +1,33 @@
 const { selectCategoryDAO } = require("../dao/category.dao");
 const { selectSubcategoryDAO } = require("../dao/subcategory.dao");
-const { insertTransactionDAO } = require("../dao/transaction.dao");
+const {
+  insertTransactionDAO,
+  listTransactionsDAO,
+} = require("../dao/transaction.dao");
 const {
   httpCode,
   httpMessage,
 } = require("../enumerations/httpResponse.enumeration");
 const { now } = require("./helpers/now");
+
+exports.listTransactionsModel = async ({ user_id }) => {
+  let code = httpCode.ERROR;
+  let message = httpMessage.ERROR;
+  let count = 0;
+  let transactions = [];
+
+  const listTransactions = await listTransactionsDAO({
+    user_id,
+  });
+  if (listTransactions.rowCount > 0) {
+    code = httpCode.OK;
+    message = `Transaçãos retornadas com sucesso!`;
+    count = listTransactions.rowCount;
+    transactions = [...listTransactions.rows];
+  }
+
+  return { code, message, count, transactions };
+};
 
 exports.createTransactionModel = async ({
   transaction_type,
@@ -81,6 +103,7 @@ exports.createTransactionModel = async ({
     value,
     observation,
     date,
+    user_id,
   });
   if (createTransaction.rowCount > 0) {
     code = httpCode.CREATED;
