@@ -111,6 +111,7 @@ exports.createSubcategoryModel = async ({
     category: category_fk?.rows?.[0]?.id,
     costing: costingEnum[costing],
     name,
+    user_id,
   });
   if (createSubcategory) {
     code = httpCode.CREATED;

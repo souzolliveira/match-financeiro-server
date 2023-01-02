@@ -10,10 +10,10 @@ exports.selectSubcategoryDAO = async ({ category, name }) => {
   return response;
 };
 
-exports.insertSubcategoryDAO = async ({ category, costing, name }) => {
+exports.insertSubcategoryDAO = async ({ category, costing, name, user_id }) => {
   const response = await db.query(
-    "INSERT INTO subcategories (categories_fk, costing, name) VALUES ($1, $2, $3)",
-    [category, costing, name]
+    "INSERT INTO subcategories (users_fk, categories_fk, costing, name) VALUES ($1, $2, $3, $4)",
+    [user_id, category, costing, name]
   );
   return response;
 };

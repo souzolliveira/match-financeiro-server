@@ -15,8 +15,8 @@ CREATE TABLE users (
 
 CREATE TABLE tokens (
     id SERIAL,
-    token_type varchar(10),
     users_fk INT,
+    token_type varchar(10),
     date TIMESTAMP,
     token VARCHAR(36) UNIQUE,
     CONSTRAINT tokens_pk PRIMARY KEY (id)
@@ -24,14 +24,15 @@ CREATE TABLE tokens (
 
 CREATE TABLE categories (
     id SERIAL,
-    transaction_type varchar(20),
     users_fk INT,
+    transaction_type varchar(20),
     name VARCHAR(100) UNIQUE,
     CONSTRAINT category_pk PRIMARY KEY (id)
 );
 
 CREATE TABLE subcategories (
     id SERIAL,
+    users_fk INT,
     categories_fk INT,
     costing varchar(10),
     name VARCHAR(100),
@@ -41,6 +42,7 @@ CREATE TABLE subcategories (
 
 CREATE TABLE transactions (
     id SERIAL,
+    users_fk INT,
     transaction_type varchar(20),
     categories_fk INT,
     subcategories_fk INT,
@@ -58,7 +60,11 @@ ALTER TABLE tokens ADD CONSTRAINT tokens_users_fk FOREIGN KEY (users_fk) REFEREN
 
 ALTER TABLE categories ADD CONSTRAINT categories_users_fk FOREIGN KEY (users_fk) REFERENCES users(id);
 
+ALTER TABLE subcategories ADD CONSTRAINT subcategories_users_fk FOREIGN KEY (users_fk) REFERENCES users(id);
+
 ALTER TABLE subcategories ADD CONSTRAINT subcategories_categories_fk FOREIGN KEY (categories_fk) REFERENCES categories(id);
+
+ALTER TABLE transactions ADD CONSTRAINT transactions_users_fk FOREIGN KEY (users_fk) REFERENCES users(id);
 
 ALTER TABLE transactions ADD CONSTRAINT transactions_categories_fk FOREIGN KEY (categories_fk) REFERENCES categories(id);
 
