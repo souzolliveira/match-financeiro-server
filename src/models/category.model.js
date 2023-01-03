@@ -10,6 +10,7 @@ const {
 exports.listCategoryModel = async ({ transaction_type, user_id }) => {
   let code = httpCode.ERROR;
   let message = httpMessage.ERROR;
+  let data = [];
 
   if (!transaction_types[transaction_type]) {
     code = httpCode.BAD_REQUEST;
