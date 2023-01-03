@@ -3,10 +3,13 @@ const {
   httpMessage,
 } = require("../enumerations/httpResponse.enumeration");
 const { actions } = require("../enumerations/actions.enumeration");
-const { createTransactionModel } = require("../models/transaction.model");
+const {
+  createTransactionModel,
+  listTransactionsModel,
+} = require("../models/transaction.model");
 const { getUserBySessionGuid } = require("../models/user.model");
 
-exports.listTransactionsController = async () => {
+exports.listTransactionsController = async (req, res) => {
   const { session_guid } = req.headers;
   const { user_id } = await getUserBySessionGuid({ session_guid });
 
@@ -17,10 +20,10 @@ exports.listTransactionsController = async () => {
   }
 
   try {
-    const { code, message } = await listTransactionsModel({
+    const { code, message, data } = await listTransactionsModel({
       user_id,
     });
-    res.status(code).send({ code, message });
+    res.status(code).send({ code, message, data });
   } catch {
     res
       .status(httpCode.ERROR)
