@@ -2,7 +2,7 @@ const db = require("../config/database");
 
 exports.listTransactionsDAO = async ({ user_id }) => {
   const response = await db.query(
-    "SELECT * from transactions WHERE users_fk = $1",
+    "SELECT * from transactions WHERE users_fk = $1 ORDER BY transaction_date DESC",
     [user_id]
   );
   return response;
